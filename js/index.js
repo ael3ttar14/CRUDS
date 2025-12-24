@@ -2,27 +2,28 @@ let productName = document.getElementById('productName');
 let productPrice = document.getElementById('productPrice');
 let productCategory = document.getElementById('productCategory');
 let productDesc = document.getElementById('productDesc');
+let addBtn = document.getElementById('addBtn');
+let updateBtn = document.getElementById('updateBtn');
 let productList = [];
-let currentIndex= "";
+let currentIndex = null;
 
-if(localStorage.getItem('products') != null){
+if(localStorage.getItem('products')){
     productList = JSON.parse(localStorage.getItem('products'));
-    showProducts(productList);
+    showProducts();
 }
 
-function addProduct() {
+function addProduct(){
     let product = {
-        name : productName.value,
-        price : productPrice.value,
-        category : productCategory.value,
-        desc : productDesc.value
+        name: productName.value,
+        price: productPrice.value,
+        category: productCategory.value,
+        desc: productDesc.value
     };
     productList.push(product);
-    localStorage.setItem('products', JSON.stringify(productList)); 
+    localStorage.setItem('products', JSON.stringify(productList));
     showProducts();
     clearForm();
     showToast('Product Added!');
-
 }
 
 function clearForm(){
@@ -30,13 +31,13 @@ function clearForm(){
     productPrice.value = '';
     productCategory.value = '';
     productDesc.value = '';
- }
+}
 
-function showProducts(list = productList) {
+function showProducts(list = productList){
     let temp = '';
-    for (let i = 0; i < list.length; i++) {
+    for(let i=0;i<list.length;i++){
         temp += `<tr class="new-row">
-            <td>${i + 1}</td>
+            <td>${i+1}</td>
             <td>${list[i].name}</td>
             <td>${list[i].price}</td>
             <td>${list[i].category}</td>
@@ -56,26 +57,23 @@ function showProducts(list = productList) {
     document.getElementById('tableBody').innerHTML = temp;
 }
 
-
-
- function deleteProduct(index){
-    productList.splice(index, 1);
+function deleteProduct(index){
+    productList.splice(index,1);
     localStorage.setItem('products', JSON.stringify(productList));
-    showProducts(productList);
+    showProducts();
     showToast('Product Deleted!');
-
 }
-let matchedProducts = [];
 
-function searchProducts(term) {
-    let matchedProducts = [];    
-    for(let i = 0; i < productList.length; i++){
+function searchProducts(term){
+    let matchedProducts = [];
+    for(let i=0;i<productList.length;i++){
         if(productList[i].name.toLowerCase().includes(term.toLowerCase())){
             matchedProducts.push(productList[i]);
         }
-    }   
+    }
     showProducts(matchedProducts);
 }
+
 function setFormForUpdate(index){
     currentIndex = index;
     addBtn.classList.replace("d-block","d-none");
@@ -84,47 +82,44 @@ function setFormForUpdate(index){
     productPrice.value = productList[index].price;
     productCategory.value = productList[index].category;
     productDesc.value = productList[index].desc;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
+    window.scrollTo({top:0,behavior:'smooth'});
 }
+
 function returnAdd(){
     addBtn.classList.replace("d-none","d-block");
     updateBtn.classList.replace("d-block","d-none");
 }
-function updateProduct() {
+
+function updateProduct(){
     let product = {
-        name : productName.value,
-        price : productPrice.value,
-        category : productCategory.value,
-        desc : productDesc.value
+        name: productName.value,
+        price: productPrice.value,
+        category: productCategory.value,
+        desc: productDesc.value
     };
-    productList.splice(currentIndex, 1, product);
-    localStorage.setItem('products', JSON.stringify(productList)); 
+    productList.splice(currentIndex,1,product);
+    localStorage.setItem('products', JSON.stringify(productList));
     showProducts();
     clearForm();
-    returnAdd()
+    returnAdd();
     showToast('Product Updated!');
 }
 
 let scrollTopBtn = document.getElementById("scrollTopBtn");
-window.onscroll = function() {
-  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-    scrollTopBtn.style.display = "block";
-  } else {
-    scrollTopBtn.style.display = "none";
-  }
+window.onscroll = function(){
+    if(document.body.scrollTop>200 || document.documentElement.scrollTop>200){
+        scrollTopBtn.style.display="block";
+    } else {
+        scrollTopBtn.style.display="none";
+    }
 };
-scrollTopBtn.onclick = function() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+scrollTopBtn.onclick = function(){
+    window.scrollTo({top:0,behavior:'smooth'});
 };
 
-
-function showToast(message, duration = 3000) {
-  let toast = document.getElementById('toast');
-  toast.textContent = message;
-  toast.classList.add('show');
-
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, duration);
+function showToast(message,duration=3000){
+    let toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(()=>{toast.classList.remove('show');},duration);
 }
