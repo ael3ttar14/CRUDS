@@ -156,3 +156,25 @@ table tbody tr:hover{
     th,td{white-space:nowrap;}
     .action-btn{min-width:36px;height:36px;}
 }
+.error-msg{
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 5px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    animation: shake 0.3s;
+
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}

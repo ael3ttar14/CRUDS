@@ -13,7 +13,14 @@ if(localStorage.getItem('products')){
 }
 
 function addProduct(){
-    let product = {
+
+    if(!validateProductName())
+    {
+        let error = document.getElementById("error");
+        error.classList.replace("d-none","d-block");}
+else 
+    {
+        let product = {
         name: productName.value,
         price: productPrice.value,
         category: productCategory.value,
@@ -24,8 +31,11 @@ function addProduct(){
     showProducts();
     clearForm();
     showToast('Product Added!');
-}
+            error.classList.replace("d-block","d-none");
 
+
+    }
+}
 function clearForm(){
     productName.value = '';
     productPrice.value = '';
@@ -122,4 +132,11 @@ function showToast(message,duration=3000){
     toast.textContent = message;
     toast.classList.add('show');
     setTimeout(()=>{toast.classList.remove('show');},duration);
+}
+
+function validateProductName(){
+
+    let regex= /^[A-Z][a-z]{3,8}$/;
+    return regex.test(productName.value);
+
 }
