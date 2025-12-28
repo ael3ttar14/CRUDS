@@ -31,10 +31,8 @@ else
     showProducts();
     clearForm();
     showToast('Product Added!');
-            error.classList.replace("d-block","d-none");
-
-
-    }
+    error.classList.replace("d-block","d-none");
+}
 }
 function clearForm(){
     productName.value = '';
